@@ -1,0 +1,102 @@
+---
+title: Stop Thinking, Start Simulatiing
+author: Ezra Citron
+date: '2021-08-12'
+slug: []
+draft: true
+categories: []
+tags: ['Simulation']
+subtitle: 'How to use simulation to help solve difficult problems'
+description: ''
+showtoc: false
+image: ''
+---
+
+
+
+<p>My mum is a avid reader of The Daily Scientist, a UK based popular science magazine.
+Unusually, she shared a piece that I got me interested, so here it is.</p>
+<p><em>“Dog breeder Harriet Hound’s prize pooch has just had 10 puppies. She is particularly pleased, because there are only nine puppies in the latest litter of her arch-rival, Matilda Mutt. However, for Harriet, it isn’t just the overall quantity that counts, it is the number of female puppies, because females earn her a premium. On average, 50 per cent of puppies are female. “What is the chance I’ve got more female puppies than Matilda?” wonders Harriet. You might think she needs to use sophisticated probability maths to work this out, but in fact there is a way to figure out the solution with some relatively simple reasoning."</em></p>
+<p>I thought about it, scratched by beard and thought about it some more, but at no point did any inspiration come to me. After a while the <em>“relatively simple reasoning”</em> they talked about it the question started to annoy me, so i decided to stop thinking, and just simulate it instead.</p>
+<div id="start-simulating" class="section level2">
+<h2>Start simulating</h2>
+<p>Though this would be a good opportunity to break the question down one step at a time and solve it by brute, unelgagnt force simply using simulation. I was surprised at how easy it was to do, and how, with very little thinking, I could get to the right answer.</p>
+<p>Lets make a function that simulates both Harriet and Matilda dogs giving birth. we have one argument <code>number_of_dogs</code>, because the only difference between Harriet and Matilda in the number of puppies each of their respective dogs have. Now we can run the function to see how many male a female dogs were bred</p>
+<pre class="r"><code>set.seed(123)
+
+create_pups &lt;- function(number_of_dogs) {
+    sample(x = c(&quot;Male&quot;,&quot;Female&quot;),replace = T,prob = c(0.5,0.5),size = number_of_dogs)
+}
+
+create_pups(10)</code></pre>
+<pre><code>##  [1] &quot;Female&quot; &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;  
+##  [9] &quot;Male&quot;   &quot;Female&quot;</code></pre>
+<p>Harriet had 6 Males, 3 Females, great</p>
+<pre class="r"><code>create_pups(9)</code></pre>
+<pre><code>## [1] &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Female&quot; &quot;Female&quot;
+## [9] &quot;Female&quot;</code></pre>
+<p>and Matilda had 4 Males and 6 Females.
+Hang on! We only did this once, we’d get a different number if we were to do it again. hmm..
+This is where simulation comes in, we could run this 1000 times, each time record whether Harriet or matilda had more females. At the end say Harriet has more females 540 times, and Matilda 460 times, then we could say that there is a 54% chance that Harriet has more dogs.</p>
+<pre class="r"><code>library(tidyverse)
+number_of_sims &lt;- 1000
+sim &lt;- tibble(event = 1:number_of_sims)
+
+sim &lt;- sim %&gt;% rowwise() %&gt;%
+  mutate(
+    outcome_10_dogs = list(create_pups(10)) ,
+    outcome_9_dogs = list(create_pups(9)),
+    Harriet_females = sum(outcome_10_dogs == &quot;Female&quot;),
+    Matilda_females = sum(outcome_9_dogs == &quot;Male&quot;)
+  ) %&gt;% ungroup()
+
+sim %&gt;%
+  mutate(
+    winner =
+      case_when(
+        Harriet_females == Matilda_females ~ &quot;equal&quot;,
+        Matilda_females &gt; Harriet_females ~ &quot;Matilda&quot;,
+        Harriet_females &gt; Matilda_females ~ &quot;Harriet&quot;)) %&gt;%
+  count(winner) %&gt;%
+  mutate(percent = scales::percent(n / sum(n)))</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   winner      n percent
+## * &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;  
+## 1 equal     175 18%    
+## 2 Harriet   524 52%    
+## 3 Matilda   301 30%</code></pre>
+<p>Great, with almost no thought at all, we’ve figured out that Harriet has a 32% chance of of winning, Matilda 50% and 18% chance of having the same number of puppies.</p>
+<p>Now lets build a quick shiny app to bring this simulation to life.</p>
+<iframe height="800" width="100%" frameborder="no" src="https://citrez.shinyapps.io/dogs_simulation/">
+</iframe>
+</div>
+<div id="more-unintuitive-probabilty" class="section level1">
+<h1>More Unintuitive Probabilty</h1>
+<p>On that note, lets try another.</p>
+<p>I Have two children, one of them is a boy. What’s the chances that the other one is a boy?</p>
+<p>50%? Nope.</p>
+<pre class="r"><code>theme_set(theme_classic(base_size = 13))
+
+children &lt;- tibble(
+  child_one_gender = list(c(&quot;Boy&quot;, &quot;Girl&quot;)),
+  child_two_gender = list(c(&quot;Boy&quot;, &quot;Girl&quot;)),
+  child_one_weekday = list(c(&quot;Sun&quot;,&quot;Mon&quot;, &quot;Tues&quot;, &quot;Wed&quot;, &quot;Thurs&quot;, &quot;Fri&quot;, &quot;Sat&quot;)),
+  child_two_weekday = list(c(&quot;Sun&quot;,&quot;Mon&quot;, &quot;Tues&quot;, &quot;Wed&quot;, &quot;Thurs&quot;, &quot;Fri&quot;, &quot;Sat&quot;))
+  ) %&gt;% 
+  unnest(1) %&gt;% unnest(2) %&gt;% unnest(3) %&gt;% unnest(4)
+
+children%&gt;% 
+  mutate(boy_tues = case_when(
+    
+    (child_one_gender == &quot;Boy&quot;&amp;child_one_weekday == &quot;Tues&quot;)|
+      (child_two_gender == &quot;Boy&quot;&amp;child_two_weekday == &quot;Tues&quot;)~ TRUE,
+    TRUE~FALSE
+    
+  )) %&gt;% 
+ggplot(aes(x  = child_one_weekday,
+           y  = child_two_weekday ))+
+  geom_tile(aes(fill = boy_tues),color = &quot;black&quot;)+labs(x = &quot;Child One&quot;,y = &quot;Child Two&quot;)+
+  facet_grid(rows = vars(child_one_gender),cols = vars(child_two_gender))+
+  scale_fill_manual(values = c(&quot;grey70&quot;,&quot;grey40&quot;))</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>

@@ -1,0 +1,71 @@
+---
+title: Animate Your Timeseries
+author: Ezra Citron
+date: '2021-05-26'
+tags: []
+description: ~
+image: ~
+draft: true
+---
+
+How to take your visuals from good to great and beyond...
+
+I was inspired to write this blog after seeing [this](https://www.cedricscherer.com/2019/05/17/the-evolution-of-a-ggplot-ep.-1/#polish) by cedric scherer, one of my favorite bloggers.
+
+```{r}
+olympics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-07-27/olympics.csv')
+```
+
+```{r}
+library(tidyverse)
+library(gganimate)
+
+d <- olympics %>%
+  filter(str_detect(games,'Summer')) %>% 
+  mutate(games  = str_remove(games,' Summer') %>% as.double() ) %>% 
+  arrange(games) %>% 
+  group_by(games) %>% 
+  slice_max(n,n = 6) %>%
+  ungroup()
+
+p <- d %>% 
+  filter(games == '1992') %>% 
+  ggplot()+
+  geom_col(aes(n,team))
+
+
+anim <- p+
+  transition_states(games, transition_length = 7, state_length = 3) +
+  labs(title = 'GDP per Year : {closest_state}',
+          subtitle = 'Frame {frame} of {nframes}')+
+  ease_aes('cubic-in-out')
+
+anim
+
+#animate(anim, fps = 5, duration = 20, width = 800, height = 600)
+```
+
+```{r}
+library(fs)
+
+dir_ls('.') [(dir_ls('.') %>% str_detect('gganim') )] %>% file_delete()
+```
+
+```{r}
+library(gganimate)
+#> Loading required package: ggplot2
+
+# We'll start with a static plot
+p <- ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) + 
+  geom_point()
+
+plot(p)
+
+anim <- p + 
+  transition_states(Species,
+                    transition_length = 2,
+                    state_length = 1)
+
+anim
+```
+

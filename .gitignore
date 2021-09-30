@@ -1,0 +1,7 @@
+/blogdown/
+/public/
+
+.RData
+.Rhistory
+/.Rproj.user/
+.Rprofile

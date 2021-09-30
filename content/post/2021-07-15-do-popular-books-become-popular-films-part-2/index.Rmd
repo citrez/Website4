@@ -1,0 +1,11 @@
+---
+title: Do Popular Books Become Popular Films Part 2
+author: Ezra Citron
+date: '2021-07-15'
+slug: []
+showtoc: true
+tags: []
+description: ~
+image: harry_potter.jpeg
+draft: true
+---

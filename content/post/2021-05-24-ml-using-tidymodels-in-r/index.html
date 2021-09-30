@@ -1,0 +1,174 @@
+---
+title: ML using Tidymodels in R
+author: Ezra Citron
+date: '2021-05-24'
+slug: []
+showtoc: false
+tags: ['Machine Learing','tidymodels']
+description: ~
+image: "img/banner/tidymodels.jpeg"
+--- 
+
+
+
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>
+<img src ="ds_flow.png" alt = "ds_flow" width  = 500px align= 'right' >
+</p>
+<p>For a long while Machine Learning in R has seemed like a poor substitute for python’s scikit-learn. R’s strengths have historically been in data manipulation and statistical analysis but lagged behind in terms of having a consistent and easily-useable API for machine learning.
+This is where the <code>tidymodels</code> packages comes in. The aim of tidymodels is to mimic the consistency and simplicity of the tidyverse packages (dplyr, purrr, stringr etc), but for machine learning. It allows you to run your entire data science workflow without leaving the comfort of Rstudio, see below for the steps and the relaveant packages.</p>
+<p>Lets meet the tidymodels packages!
+There are few sub-packages that you should become familiar with in the <code>tidymodels</code> eco-system. Much like the tidyverse has dplyr, purrr, readr, stringr…etc tidymodels has rsamples, recipies, parsnip, tune… etc. This is what they all do in a nutshell.</p>
+<ul>
+<li><code>rsample</code> - Different types of re-samples</li>
+<li><code>recipes</code> - Transformations for model data pre-processing</li>
+<li><code>parnip</code> - A common interface for model creation</li>
+<li><code>yardstick</code> - Measure model performance
+<br>
+<br></li>
+</ul>
+<p><img src = "tidymodels_flow.png" alt = "tidymodels_flow" width  = 500px></p>
+<p>I have heard the Rstudio community use the words <a href="https://github.com/r-lib/devtools#conscious-uncoupling">‘consious uncoupling’</a> in reference to splitting packages up into smaller ones which do a specific job and although this sounds a bit Gwenith Paltrow book for my liking, I think it describes the idea quite nicely.</p>
+</div>
+<div id="ml-walkthrough" class="section level2">
+<h2>ML Walkthrough</h2>
+<p>This walkthrough is inspired by the amazing blogs of Julia Silge from Rstudio, one of the creators of tidymodels. If you haven’t already, I highly recommend you check out her blog for more info. I was also heavily guided by <a href="https://rviews.rstudio.com/2019/06/19/a-gentle-intro-to-tidymodels/">this</a> tidymodels blogpost - well worth checking out.</p>
+<p>I’ll be using <code>iris</code> dataset that comes pre-loaded with tidyverse, so that we can focus on the methods rather than the data and so that no one has an excuse not to follow along. In future blogs, I’ll make sure to explore other data sources.</p>
+<pre class="r"><code>iris %&gt;% head(n = 5) %&gt;% knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Sepal.Length</th>
+<th align="right">Sepal.Width</th>
+<th align="right">Petal.Length</th>
+<th align="right">Petal.Width</th>
+<th align="left">Species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="even">
+<td align="right">4.9</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="odd">
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.3</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="even">
+<td align="right">4.6</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="odd">
+<td align="right">5.0</td>
+<td align="right">3.6</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+</tbody>
+</table>
+<p>Alight, enough talk, lets dive in.</p>
+<p>We use <code>{rsample}</code> to split into training and testing set, much like ‘train_test_split’ from sklearn.model_selection in python. This returns a split object, which prints the number of rows in the train, test set and overall rows. The training and testing data can be accessed pretty easily</p>
+<pre class="r"><code>iris_split &lt;- rsample::initial_split(iris,prop = 0.7,strata = Species)
+print(iris_split)</code></pre>
+<pre><code>## &lt;Analysis/Assess/Total&gt;
+## &lt;105/45/150&gt;</code></pre>
+<pre class="r"><code>iris_train &lt;- training(iris_split) 
+iris_test &lt;- testing(iris_split)
+
+iris_train %&gt;% head(n = 5) </code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+## 9          4.4         2.9          1.4         0.2  setosa</code></pre>
+<p>The <code>recipies</code> package will give us the tools we need for pre-processing our iris data.
+We need to tell the recipe the predictor and predicted variable, we give it this information in formula form i.e <code>Species ~ .</code> where “.” is a shorthand for ‘all other variables’.</p>
+<p>The we pipe this recipe into various steps, which do all sorts of good-practice ML pre-processing steps for you. Some examples include:</p>
+<ul>
+<li>step_zv() - removes variables with zero variance</li>
+<li>step_lag() - creates a lagged variable</li>
+<li>step_center() - centers variable to have mean of zero</li>
+<li>step_other() - pool infrequent categorical variables into “Other”</li>
+<li>step_scale() - creates a standard deviation of one</li>
+<li>step_corr() - removes highly correlated variables</li>
+<li>step_dummy() - creates dummy variables (one-hot-encoding) from categorical variables</li>
+</ul>
+<p>and many, many <a href="https://recipes.tidymodels.org/reference/index.html">others</a>…</p>
+<p>I find, not only are these convenient for data pre-processing, but crucially they help enforce best practice, and also encourage you to tune these pre-processing steps as part of your overall model tuning. Something which I feel is underrated and can hugely improve model accuracy.</p>
+<p>The un-prepped recipie can be thought of as the general blueprint for reprocessing. ‘prepping’ it, preforms the reprocessing with the training set. So for example, It will use the training set to decide which variables in needs to drop through the <code>step_corr()</code> step. See the difference in outputs between <code>iris_recipe</code> and <code>iris_recipe_prepped</code> for the general and specific case.</p>
+<p><span style="color: red "> Remember </span> the test set must be transformed using the exact same pre-processing ‘learned’ from the training set. I.e if the step_corr() removed <code>Petal.Length</code> column from the data, this must be removed from test data, even if the correlation did not meet the threshold in the test set. Another example, the training set was centered and scaled by subtracting the mean of each column and dividing by the standard deviation. The <strong>test set</strong> is scaled using the <strong>training set</strong> mean and standard deviation.</p>
+<p>So we <code>bake()</code> our test set using the recipe prepped on the training set</p>
+<pre class="r"><code>iris_test_baked &lt;- iris_recipe_prepped %&gt;%
+  bake(iris_test) </code></pre>
+<div id="time-to-actually-train-a-model" class="section level3">
+<h3>Time to actually train a model</h3>
+<p>There are often many different packages that fit the same type of model, with each one having slightly different interface and terminology. The beauty of <code>tidymodels</code> is that it provides a consistent set of functions and arguments and then allows you to pick which package to use ‘behind the scenes’. To make this concrete, training a random forest can be done with <code>ranger</code> and <code>randomForst</code> packages.
+To set the hyper-parameter for the number of trees to build the <code>ranger</code> package uses <code>num.trees</code> and <code>randomForest</code> uses <code>ntree</code>. Tidymodels eliminates this unnecessary complication, making it much simpler to switch between models. You can find a full range of models that <code>{tidymodels}</code> offers <a href="https://www.tidymodels.org/find/parsnip/">here</a></p>
+<pre class="r"><code>iris_rf &lt;- rand_forest(trees = 150, mode = &#39;classification&#39;) %&gt;% 
+  set_engine(&#39;randomForest&#39;) %&gt;% 
+  fit(Species~., data = iris_train_juiced)</code></pre>
+<p>The <code>rand_forest</code> function generates your specification for the model, using things like:</p>
+<ul>
+<li>trees - The number of trees contained in the ensemble.</li>
+<li>min_n - The minimum number of data points in a node that are required for the node to be split further.</li>
+</ul>
+<p>This is quite similar to the <code>RandomForestClassifier()</code> class from the sklearn.ensemble module.
+<code>set_engine</code> allows you to seamlessly move between the package used to fit the model, we could have written <code>set_engine("ranger")</code> instead. <code>fit</code> fits the model to the training data, with the formula telling the model which variables are predictors and predicted.</p>
+<p>DONE!</p>
+<p>To summarise, we split into a training and test set using <code>rsample</code>. We reprocessed our data using <code>recipes</code> and then trained a model using <code>parsnip</code>.</p>
+</div>
+<div id="evaluating-how-well-the-model-did" class="section level3">
+<h3>Evaluating how well the model did</h3>
+<p>For this, we’ll use the final standard tidymodels package, <code>{yardstick}</code>.
+First, lets use our model to predict the Species on our test set.</p>
+<pre><code>## # A tibble: 5 x 1
+##   .pred_class
+##   &lt;fct&gt;      
+## 1 setosa     
+## 2 setosa     
+## 3 setosa     
+## 4 setosa     
+## 5 setosa</code></pre>
+<p>Another big benefit tidymodels ecosystem is that its works so smoothly with the tidyverse.
+The output of the <code>predict()</code> function is a tidy tibble. We can now easily stick this next to our test set to see where the predictions were right and wrong</p>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species .pred_class
+## 1          5.1         3.5          1.4         0.2  setosa      setosa
+## 2          4.9         3.0          1.4         0.2  setosa      setosa
+## 3          4.6         3.4          1.4         0.3  setosa      setosa
+## 4          5.0         3.4          1.5         0.2  setosa      setosa
+## 5          5.7         4.4          1.5         0.4  setosa      setosa</code></pre>
+<p>We can pipe this into metrics to get the overall accuracy which is <span class="math inline">\(\frac{CorrectlyClassified}{total}\)</span></p>
+<pre><code>## # A tibble: 2 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy multiclass     0.956
+## 2 kap      multiclass     0.933</code></pre>
+<p>You can also get back the predicted probability for each class</p>
+<pre><code>##   Species .pred_setosa .pred_versicolor .pred_virginica
+## 1  setosa         1.00       0.00000000      0.00000000
+## 2  setosa         0.94       0.04666667      0.01333333
+## 3  setosa         1.00       0.00000000      0.00000000</code></pre>
+<p>Which you need to building <a href="https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5">ROC_AUC curves</a>.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Thanks for sticking around, I hope I’ve convinced you that tidymodels is a great substitution for other ML packages and can help simplify you R workflow.</p>
+</div>
+</div>

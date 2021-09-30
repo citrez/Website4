@@ -1,0 +1,71 @@
+---
+title: Help Building a Blog
+author: Ezra Citron
+date: '2021-08-10'
+tags: ['Blogging']
+subtitle: 'Using Hugo and Blogdown to get a blog up and runnning'
+description: ''
+image: 'img/banner/blogging.jpeg'
+draft: true
+showtoc: false
+---
+
+
+
+<div id="how-to-start-a-blog" class="section level2">
+<h2>How to start a blog</h2>
+<p>Let me be clear from the outset. <strong>I am no webdeveloper</strong>. I have however, thoroughly enjoyed the process of learning a little bit more about the techniques and technology that go into taking a website live, and I want to share some of the learnings in this post. I’ll be linking to lots of resources that can explain all the detail.</p>
+<div id="use-blogdown-to-get-up-and-running" class="section level3">
+<h3>Use Blogdown to get up and running</h3>
+<p>Blogdown is a package in R which helps you build a static website, using <a href="https://rmarkdown.rstudio.com/articles_intro.html">Rmarkdown</a> documents as the website pages. Rmarkdown One big advantage of using Rmarkdown (.Rmd) over markdown (.md) files, is that it allows you to seamlessly include code in your blogs, very useful if you’re writing for a technical audience.</p>
+<p>Alison hill, made a blog post using blogdown about how to make a blog post using blogdown - meta. You can find it <a href="https://alison.rbind.io/blog/2017-06-up-running-with-blogdown/">here</a>.</p>
+</div>
+<div id="keep-things-tidy" class="section level3">
+<h3>Keep things tidy</h3>
+<p>An observation i’ve had is, one of the key consideration when blogging, and when building a website in general, is keeping things tidy and therefor maintainable. Since we are making a static site, conceptually, all this boils down to is writing content and then telling the computer which content to retrieve when you click on certain things on the webpage. An organizational hurdle you will quickly run into is, how to make sure images, data and other things you want available in a given blogpost are stored in an accessible place for that blog post, this can be simplified greatly using <a href="https://alison.rbind.io/blog/2019-02-spoonful-bundles/">page bundles</a> - again, Alison Hill to the rescue.</p>
+</div>
+<div id="hugo" class="section level3">
+<h3>Hugo</h3>
+<p>There are a few folders and things to know about with hugo. You can find much more information on the <a href="https://gohugo.io/">hugo website</a></p>
+<div id="archetypes" class="section level4">
+<h4>Archetypes</h4>
+<p>These set up what a new post looks like when you make a post in certain folders. It sets up default front matter on posts (front matter is the stuff is the YAML header that gives meta data about the pos such as, when it was written, who it was written by and whether to include a table of contents). For example, in one folder you may want the default author to be ‘Ezra’ and in another, for the default author to be ‘Sarah’.</p>
+</div>
+<div id="shortcodes" class="section level4">
+<h4>Shortcodes</h4>
+<p>You can do a lot with HTML and an (R)markdown (.(R)md) document accepts raw HTML. Shortcodes are the reuable snippets of HTML that save you from writting raw HTML each time you say, want to embedd a youtube video in you md. Instead just write <code>{{&lt; youtube w7Ft2ymGmfc &gt;}}</code>. I think of these as functions which output HTML - or “pre defined chucks of HTML that you can insert in your markdown file”.
+These are saved in layouts/shortcodes/</p>
+<p>Shortcodes are supposed to work in plain Markdown documents only. To use shortcodes in R Markdown instead of plain Markdown, you have to call the function blogdown::shortcode(), e.g.,</p>
+<p>{{% tweet "852205086956818432" %}}</p>
+</div>
+<div id="taxomony" class="section level4">
+<h4>Taxomony</h4>
+<p>Taxonomy is how you group content together. So in Hugo, by default there are 2 ways to group content together. you can use ‘tags’ or ‘categories’. Front matter (the stuff in your YAML heading) can be used to implement tags and categories. You can also create your own custom taxonomies that, when clicked, direct you to taxonomy pages, which are list pages which list out the relevant pages.</p>
+</div>
+<div id="templates" class="section level4">
+<h4>Templates</h4>
+<p>Templates are more advance, this is really just HTML templates. A hugo theme is made up of templates. In hugo there are two high level types of content, list pages and single pages. The home page is list page. The templates are for these different types of pages, the list pages and single page, look basically the same. A template is the HTML skeleton.
+Templates can be altered in layouts/_default they are the default templates that will be used for out file. single.html acts as a template for single pages. The {{.content}} syntax, takes the content from all of your single pages and shoves it on the website.</p>
+</div>
+<div id="hugo-variable" class="section level4">
+<h4>Hugo Variable</h4>
+<p>Thids is a value that is stored about the page and that you can use in templates. (so that not every page looks the same)</p>
+</div>
+<div id="block" class="section level4">
+<h4>Block</h4>
+<p>baseof.html templates are an overarching teplate that you can use to stick your single.html, list.html index.html (for the home page).
+You stick it in there using blocks. You define blocks in single.html using</p>
+<pre><code>{{ define &#39;main&#39; }}
+This is a single page
+{{ end }}</code></pre>
+<p>and then use it in your baseof.html template using</p>
+<pre><code>{{ block &quot;main&quot; . }}
+{{ end }}</code></pre>
+<p>With blocks you can decide if you want to override a specific default thats on a page with a specific template.</p>
+</div>
+<div id="css-styling" class="section level4">
+<h4>CSS Styling</h4>
+<p>The two CSS files are placed under the static/css/ directory of the theme. In the HTML template header.html, the path /css/style.css refers to the file static/css/style.css</p>
+</div>
+</div>
+</div>
