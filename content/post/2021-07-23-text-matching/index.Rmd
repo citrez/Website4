@@ -1,27 +1,67 @@
 ---
-title: Text Matching
+title:  Python, make me a match
 author: Ezra Citron
 date: '2021-07-23'
 slug: []
 tags: ['text matching']
-description: ~
-showtoc: true
-featured_image: ~
+description: Exploring different text matching techniques in python.
+showtoc: false
+#image: img/banner/match.jpeg
 ---
+```{r setup, error=F,warning=F,message=F, echo = F}
+library(reticulate)
 
-One problem I often come across in my work and I also stumbles into a my recent blog about [harry potter film sales]() was, I have two lists of words, 1 with words that I actually have, and one that words that i'd like them to be, the task in to map the first onto the second.
+knitr::opts_chunk$set(echo = TRUE,error=F,warning=F,message=F)
 
-Let me make this more concrete.
+#reticulate::virtualenv_create('website4_env')
+#reticulate::virtualenv_list()
+#reticulate::virtualenv_install('website4_env','fuzzywuzzy')
+reticulate::use_virtualenv(virtualenv = 'website4_env',required = TRUE)
+#reticulate::virtualenv_remove('website4_env')
 
-### Example
-
-### Levenstine distance
-The levenstine distance is a fancy way of saying "how different are the letters in these 2 words". The word 'getting' and 'greeting' are pretty similar. All you have to do is add an 'r' and change a 't' to an 'e' and they are the same word. Levenstine distance counts the number of insertions, deletions and letter swaps to get from one word to another, and this is thier levenstine distance.
-
-The `adist` function from the `utils` package which comes built in with R will do this for you.
-
-```{r}
-adist('getting','greeting')
 ```
 
-We had to add an 'r' and change 't' to 'e' to get from the first to the second.
+As more and more people want to use a 'data driven approach' in their work, one common problem often arises. 
+I have some data on peoples favorite films, and I have some other data on film revenue. But the names don't match up exactly, and I don't want to manually go through the data to make the match. Without having to go through each case manually, we need rules so that 'James Bond Film' matches to the official title, "James Bond No Time to Die " and "Meliganant" (spelling error) matches to "Malignant".
+
+There is no 1 solution that will fix this perfectly in every situation, but in this article I'd like to introduce a few techniques that may be able to get you at least some of the way.
+
+## Approaches
+There are 6 approaches when trying to get text to match. 
+
+1. Edit Based Similarity 
+
+This is simply a matter of thinking, how many characters do we need to change to go from one word to another. 'cat' to 'rat' is 1, "Meliganant" to "Malignant" is 2 (M~~e~~alig~~a~~nant). The most common technique to implement this is called 'Levenstine Distance' which just keeps score of how many insertions, updates and deleted characters have been made to get from one word to another, which gives you your overall Levenstine Distance. We can then use the ratio of Levenstine distance and length of the word(s) to get the Levenstine ratio of how similar 2 word(s) are. 
+
+This can be implemented in python using the [fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/) (real name) package.  
+
+
+```{python}
+from fuzzywuzzy import fuzz
+[fuzz.ratio('James Bond',word2) for word2 in ('James Bonds', 'James B')  ]
+```
+
+You can also use partial ratios to match to a subset of the string, and 'token sort ratios', to ignore ordering of the words. For choosing the the lowest Levenstine distance among a selection of words use the process module.  
+```{python}
+from fuzzywuzzy import process
+choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
+process.extract("new york jets", choices, limit=2)
+```
+ 
+See [this data camp blog](https://www.datacamp.com/community/tutorials/fuzzy-string-python) for more details.
+ Text edit distance, is simple, easy to explain, but doesn't into account the meaning of the words. 'Happy' and 'Overjoyed' would have a high edit distance, but we may want those two words to match up.
+
+2. Token-based similarity. This looks at a phrase as a set of words. We are then able to extract meaning from the words and process many words (or even a whole paragraph) as a vector representing it's meaning. We can also interpret a text as a bag of words and look at the TF-IDF. These token-based approach are better suited for longer text, such as paragraphs, rather than 1 or two words. 
+
+3. Sequence-based distance
+This is like edit-based longest substring approach, but allows for gaps. For example, consider sets of letters “aebcdnlp” and “taybcrd”. The longest common **subsequence** between these words is “abcd”, while the longest common **substring** is only “bc”. 
+
+4. Phonetic-based distance compares not the letters, or meaning of the string itself. But how simliar two strings sound.
+
+5. Simple approaches can compare based on simliar prefixes or postfixes. Or based on length of each string, or based on whether they are identical string. These are very primative. 
+
+6. Hybrid Algorythm.  The Monge-Elkan in the main method and it is a mix of edit based and token based distances. The method compares each word in one text with each word in another text (token-based), but when comparing words it uses some of the edit based methods (edit-based). Then distances between words are aggregated to derive a single value of the distance between the two texts.
+
+![text_distance](text-distance-infographics.png)
+
+This article was heavily inspired by KDnuggets blog post on [text distance metrics](https://www.kdnuggets.com/2019/01/comparison-text-distance-metrics.html). Check it out.

@@ -3,28 +3,35 @@ title: "Resources"
 author: "Ezra Citron"
 date: '2021-05-24'
 showtoc: true
-image: img/banner/harry_potter.jpeg
+image: "img/banner/harry_potter.jpeg"
 ---
 
-<header>
-<style> 
-.pictures-speak {
-}
-</style>
-</header>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
 
 
 <h2>
   <p style="text-align: center;">
-    Here is a collection of things that I love to use.<br>I hope you love them too
+    A collection of things that I love to use<br>Enjoy!
     </p>
 </h2>
 
-##### Content
-* [R](#R)
-* [Bloggers](#Bloggers)
-* [DataVis](#DataVis)
-* [Books and Sites](#Books-Sites)
+
+<style>
+
+
+
+
+</style>
+
+<ul class="toc fa-ul">
+  <li><span class="fa-li"><i class="fas fa-arrow-circle-right"></i></span><a href = "#R">R</a></li>
+  <li><span class="fa-li"><i class="fas fa-arrow-circle-right"></i></span><a href = "#Bloggers">Bloggers</a></li>
+  <li><span class="fa-li"><i class="fas fa-arrow-circle-right"></i></span><a href = "#DataVis">DataVis</a></li>
+  <li><span class="fa-li"><i class="fas fa-arrow-circle-right"></i></span><a href = "#Books-Sites">Books-Sites</a></li>
+</ul>
+
 
 ### R {#R}
 - [R for Data Science](https://r4ds.had.co.nz/) for me is the definitive guide to Data Science in R and can help you think about data problems. It is both highly approachable and will really get you quite far along with your R data needs and give you a robust beginner framework to think about data science problems. [Advanced R](https://adv-r.hadley.nz/) is as it says on the tin. If you really want to understand R as a programming language, this is the book for you (still making my way through it). 
@@ -85,6 +92,9 @@ image: img/banner/harry_potter.jpeg
 
 - [Pudding](https://pudding.cool/) is website dedicated to cool visualization. Worth checking out for some inspo.
 
+### Commonly used cheat sheets
+[Rmarkdown]()
+
 
 ### Less-well-known Packages {#packages}
 
@@ -92,7 +102,7 @@ image: img/banner/harry_potter.jpeg
 
 - tidylog
 
-#### Data Packages
+### Data Packages
 
 Here are some packages for retrieving data, afterall, what is data analysis without the data - just analysis, how lame. 
 - tidyquant

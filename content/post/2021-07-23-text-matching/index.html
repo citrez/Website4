@@ -1,27 +1,50 @@
 ---
-title: Text Matching
+title:  Python, make me a match
 author: Ezra Citron
 date: '2021-07-23'
 slug: []
 tags: ['text matching']
-description: ~
-showtoc: true
-featured_image: ~
+description: Exploring different text matching techniques in python.
+showtoc: false
+#image: img/banner/match.jpeg
 ---
 
 
 
-<p>One problem I often come across in my work and I also stumbles into a my recent blog about <a href="">harry potter film sales</a> was, I have two lists of words, 1 with words that I actually have, and one that words that i’d like them to be, the task in to map the first onto the second.</p>
-<p>Let me make this more concrete.</p>
-<div id="example" class="section level3">
-<h3>Example</h3>
+<p>As more and more people want to use a ‘data driven approach’ in their work, one common problem often arises.
+I have some data on peoples favorite films, and I have some other data on film revenue. But the names don’t match up exactly, and I don’t want to manually go through the data to make the match. Without having to go through each case manually, we need rules so that ‘James Bond Film’ matches to the official title, “James Bond No Time to Die” and “Meliganant” (spelling error) matches to “Malignant”.</p>
+<p>There is no 1 solution that will fix this perfectly in every situation, but in this article I’d like to introduce a few techniques that may be able to get you at least some of the way.</p>
+<div id="approaches" class="section level2">
+<h2>Approaches</h2>
+<p>There are 6 approaches when trying to get text to match.</p>
+<ol style="list-style-type: decimal">
+<li>Edit Based Similarity</li>
+</ol>
+<p>This is simply a matter of thinking, how many characters do we need to change to go from one word to another. ‘cat’ to ‘rat’ is 1, “Meliganant” to “Malignant” is 2 (M<del>e</del>alig<del>a</del>nant). The most common technique to implement this is called ‘Levenstine Distance’ which just keeps score of how many insertions, updates and deleted characters have been made to get from one word to another, which gives you your overall Levenstine Distance. We can then use the ratio of Levenstine distance and length of the word(s) to get the Levenstine ratio of how similar 2 word(s) are.</p>
+<p>This can be implemented in python using the <a href="https://pypi.org/project/fuzzywuzzy/">fuzzywuzzy</a> (real name) package.</p>
+<pre class="python"><code>from fuzzywuzzy import fuzz</code></pre>
+<pre><code>## /Users/ezracitron/.virtualenvs/website4_env/lib/python3.6/site-packages/fuzzywuzzy/fuzz.py:11: UserWarning: Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning
+##   warnings.warn(&#39;Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning&#39;)</code></pre>
+<pre class="python"><code>[fuzz.ratio(&#39;James Bond&#39;,word2) for word2 in (&#39;James Bonds&#39;, &#39;James B&#39;)  ]</code></pre>
+<pre><code>## [95, 82]</code></pre>
+<p>You can also use partial ratios to match to a subset of the string, and ‘token sort ratios’, to ignore ordering of the words. For choosing the the lowest Levenstine distance among a selection of words use the process module.</p>
+<pre class="python"><code>from fuzzywuzzy import process
+choices = [&quot;Atlanta Falcons&quot;, &quot;New York Jets&quot;, &quot;New York Giants&quot;, &quot;Dallas Cowboys&quot;]
+process.extract(&quot;new york jets&quot;, choices, limit=2)</code></pre>
+<pre><code>## [(&#39;New York Jets&#39;, 100), (&#39;New York Giants&#39;, 79)]</code></pre>
+<p>See <a href="https://www.datacamp.com/community/tutorials/fuzzy-string-python">this data camp blog</a> for more details.
+Text edit distance, is simple, easy to explain, but doesn’t into account the meaning of the words. ‘Happy’ and ‘Overjoyed’ would have a high edit distance, but we may want those two words to match up.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Token-based similarity. This looks at a phrase as a set of words. We are then able to extract meaning from the words and process many words (or even a whole paragraph) as a vector representing it’s meaning. We can also interpret a text as a bag of words and look at the TF-IDF. These token-based approach are better suited for longer text, such as paragraphs, rather than 1 or two words.</p></li>
+<li><p>Sequence-based distance
+This is like edit-based longest substring approach, but allows for gaps. For example, consider sets of letters “aebcdnlp” and “taybcrd”. The longest common <strong>subsequence</strong> between these words is “abcd”, while the longest common <strong>substring</strong> is only “bc”.</p></li>
+<li><p>Phonetic-based distance compares not the letters, or meaning of the string itself. But how simliar two strings sound.</p></li>
+<li><p>Simple approaches can compare based on simliar prefixes or postfixes. Or based on length of each string, or based on whether they are identical string. These are very primative.</p></li>
+<li><p>Hybrid Algorythm. The Monge-Elkan in the main method and it is a mix of edit based and token based distances. The method compares each word in one text with each word in another text (token-based), but when comparing words it uses some of the edit based methods (edit-based). Then distances between words are aggregated to derive a single value of the distance between the two texts.</p></li>
+</ol>
+<div class="figure">
+<img src="text-distance-infographics.png" alt="" />
+<p class="caption">text_distance</p>
 </div>
-<div id="levenstine-distance" class="section level3">
-<h3>Levenstine distance</h3>
-<p>The levenstine distance is a fancy way of saying “how different are the letters in these 2 words”. The word ‘getting’ and ‘greeting’ are pretty similar. All you have to do is add an ‘r’ and change a ‘t’ to an ‘e’ and they are the same word. Levenstine distance counts the number of insertions, deletions and letter swaps to get from one word to another, and this is thier levenstine distance.</p>
-<p>The <code>adist</code> function from the <code>utils</code> package which comes built in with R will do this for you.</p>
-<pre class="r"><code>adist(&#39;getting&#39;,&#39;greeting&#39;)</code></pre>
-<pre><code>##      [,1]
-## [1,]    2</code></pre>
-<p>We had to add an ‘r’ and change ‘t’ to ‘e’ to get from the first to the second.</p>
+<p>This article was heavily inspired by KDnuggets blog post on <a href="https://www.kdnuggets.com/2019/01/comparison-text-distance-metrics.html">text distance metrics</a>. Check it out.</p>
 </div>
