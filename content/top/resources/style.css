@@ -15,3 +15,8 @@
 .toc li:hover {  
   color:red;
 }
+
+.toc li {
+  float: left;
+  padding: 20px;
+}
