@@ -4,7 +4,7 @@ author: Ezra Citron
 date: '2021-05-24'
 slug: []
 showtoc: false
-tags: ['Machine Learing','tidymodels']
+tags: ['Machine Learning','tidymodels']
 description: ~
 image: "img/banner/tidymodels.jpeg"
 --- 
@@ -14,9 +14,8 @@ image: "img/banner/tidymodels.jpeg"
 <img src ="ds_flow.png" alt = "ds_flow" width  = 500px align= 'right' >
 </p>
 
-For a long while Machine Learning in R has seemed like a poor substitute for python's scikit-learn. R's strengths have historically been in data manipulation and statistical analysis but lagged behind in terms of having a consistent and easily-useable API for machine learning.
-This is where the `tidymodels` packages comes in. The aim of tidymodels is to mimic the consistency and simplicity of the tidyverse packages (dplyr, purrr, stringr etc), but for machine learning. It allows you to run your entire data science workflow without leaving the comfort of Rstudio, see below for the steps and the relaveant packages.
-  
+For a long while Machine Learning in R has seemed like a poor substitute for python's well built scikit-learn. R's strengths have historically been in data manipulation and statistical analysis but lagged behind in terms of having a consistent API for machine learning.
+This is where the `tidymodels` packages comes in. The aim of tidymodels is to mimic the consistency and simplicity of the tidyverse packages (dplyr, purrr, stringr etc), but for machine learning. It allows you to run your entire data science workflow without leaving the comfort of Rstudio, see below for the steps and the relevant packages.
   
   
 ```{r setup, include =F,echo=F}
@@ -37,12 +36,10 @@ There are few sub-packages that you should become familiar with in the `tidymode
 - `yardstick` - Measure model performance
 <br>
 <br>
-
-
 <img src = "tidymodels_flow.png" alt = "tidymodels_flow" width  = 500px>
 
 
-I have heard the Rstudio community use the words ['consious uncoupling'](https://github.com/r-lib/devtools#conscious-uncoupling) in reference to splitting packages up into smaller ones which do a specific job and although this sounds a bit Gwenith Paltrow book for my liking, I think it describes the idea quite nicely. 
+I have heard the Rstudio community use the words ['consious uncoupling'](https://github.com/r-lib/devtools#conscious-uncoupling) in reference to splitting packages up into smaller ones which do a specific job and although this sounds a bit 'Gwenith Paltrow' book for my liking, I think it describes the idea quite nicely. 
 
 ## ML Walkthrough
 
