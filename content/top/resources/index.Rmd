@@ -16,7 +16,7 @@ image: "img/banner/harry_potter.jpeg"
 </h2>
 
 </br>  
-  
+
 ### R {#R}
 - [R for Data Science](https://r4ds.had.co.nz/), for me, is the definitive guide to data science in R and can help you think about data problems. It is both highly approachable and will get you quite far along in your data needs and give you a robust beginner framework to think about data science problems. [Advanced R](https://adv-r.hadley.nz/) is as it says on the tin. If you really want to understand R as a programming language, this is the book for you (still making my way through it). 
 
