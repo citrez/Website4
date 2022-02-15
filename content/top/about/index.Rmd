@@ -12,14 +12,11 @@ tags: []
 # About me
  
 Hi, welcome to my blog!
-I studies Maths an University and then went on to do a masters in Economics.
- I'm now 26 and have been working for a couple of years as a data scientist in the city of London. 
- I love hiking, running, rowing and generally being outdoors. 
+My name's Ezra, I'm 26 and I've been working for a couple of years as a data scientist in the city of London. I studied maths an university and then went on to do a masters in Economics. In my spare time I love hiking, running, rowing, tennis and generally being outdoors. 
 
 
-
-<img class="mySlides" src="img/rowing_1.jpg">
-<img class="mySlides" src="img/rowing_2.jpg">
+<img class="mySlides" src="img/rowing_5.jpg">
+<img class="mySlides" src="img/rowing_6.jpg">
 <img class="mySlides" src="img/running_1.jpg">
 <img class="mySlides" src="img/running_2.jpg">
 <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
