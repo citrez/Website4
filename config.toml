@@ -1,4 +1,4 @@
-baseurl = ""
+baseurl = "https://ezracitron.co.uk"
 title = "Ezra Citron"
 
 theme = "hugo-theme-cleanwhite"
@@ -16,7 +16,7 @@ home = ["HTML", "RSS", "Algolia"]
 [params]
   header_image = "img/universe_banner_cropped.jpg"
   SEOTitle = "Ezra Blog"
-  description = "My personal blog"
+  description = "Ezra Citron's personal blog"
   keyword = "Data Visualization, Data Science"
   slogan = "Data Science, Data Vis, Machine Learning"
 
@@ -64,7 +64,7 @@ home = ["HTML", "RSS", "Algolia"]
   #custom_js = ["js/lightbox.js", "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js", "js/main.js"]
 
   [params.social]
-  rss            = true 
+  rss            = false 
   email          = "ezracitron@gmail.com"
   #facebook      = "full profile url in facebook"
   #googleplus    = "full profile url in googleplus"
