@@ -1,0 +1,17 @@
+---
+title: Books
+author: Ezra Citron
+date: '2022-02-15'
+slug: []
+categories: []
+tags: []
+subtitle: ''
+description: 'A way of chronicling books Ive read'
+image: 'img/banner/blogging.jpeg'
+---
+
+### An introduction to statisical learning with applications in R
+
+A great book for understanding the key ideas in ML, offers a readable and no-nonsense introduction. Although I find the "applications in R" a bit outdated and 'base R'-y for my liking, the fundamental concepts have stood the test of time. [link to pdf](https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf)
+
+

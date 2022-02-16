@@ -7,9 +7,9 @@ showtoc: false
 tags: ['topic modeling','NLP']
 description: ~
 image: "img/banner/eminem.jpeg"
-showtoc: true
+draft: true
 ---
-For a while I thought it'd be fun to apply natural language processing (NLP) techniques on artists lyrics - and see what it comes up with, whether the analysis chimes with our experience of listening to the artist.
+For a while I thought it'd be fun to apply natural language processing (NLP) techniques on artists lyrics - and see what it comes up with, whether the analysis chimes with our experience of listening to the artist. 
 
 Picking a rapper would be a good choice, purely because they give us more words than most.
 

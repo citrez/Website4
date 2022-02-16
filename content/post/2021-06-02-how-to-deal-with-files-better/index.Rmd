@@ -4,7 +4,7 @@ author: Ezra Citron
 date: '2021-06-02'
 slug: []
 showtoc: false
-description: null
+description: "How to manage files in R using fs package"
 featured_image: finder.png
 draft: false
 tags: ['file system']
@@ -23,7 +23,7 @@ No doubt, you've done all of these things many times with something like this
 <br><br>
 <img src = "finder.png" alt = "finder" width  = 400px>
 <br><br>
-That is great, and works very well for *90%* of cases. But, what happens when you have 3,000 files and you need to rename all of then, do you really want to be clicking through each of them and changing them individually? This is when a less graphical-user-interface reliant work-flow can really come in handy. I'll be setting up a dummy problem and showing you how to solve it with the neat `fs` package in R. For me, file manipulation is one of those tool that you may not use everyday, but once in a while you'll look like a magician and be very happy you know about it. 
+That is great. It works very well for *99%* of cases. But, what happens when you have 3,000 files and you need to rename all of then, do you really want to click through each of them making changes individually? This is when a less graphical-user-interface reliant work-flow can really shine. I'll be setting up a dummy problem and showing you how to solve it with the neat `fs` package in R. For me, file manipulation is a tool I won't use everyday, but once in a while it'll make me feel like a magician and i'll be very happy I took the time to learn about it. 
 
 ```{r setup, echo =F}
 knitr::opts_chunk$set(echo = T, message = F,warning = F,cache = T )
@@ -43,7 +43,7 @@ dir_create('dummy_folder')
 
 ### Add some files
 
-he beauty of the fs package is that the functions are vecotrised. Meaning, you pass in a vector and it applies the function on all the elements of the vector successively. This saves us the messy step of looping or passing to a map function. The path() function from fs, helps us stick file paths together. 
+The beauty of the fs package is that the functions are vecotrised. Meaning, you pass in a vector and it applies the function on all the elements of the vector successively. This saves us the messy step of looping or passing to a map function. The path() function from fs, helps us stick file paths together. 
 
 ```{r , echo=T}
 file_create(path = path('dummy_folder',paste0('test_',1:12) ), ext = 'txt' )
@@ -57,18 +57,18 @@ dir_ls('dummy_folder')
 
 Or if we want that in a tidy tibble...
 
-```{r echo=FALSE}
-dir_info('dummy_folder')
+```{r}
+dir_info('dummy_folder') %>% head(3) 
 ```
 
 or if we want a tree of the structure...
 
-```{r}
+```{r, eval = FALSE}
 fs::dir_tree(path = 'dummy_folder',recurse = 2)
 ```
 
 ### Combine using the pipe
-Here's the cool part, we can pipe one function into another, so deleting everything in a folder is as simple and readable as this. dir_ls lists the content of the folder and file_delete is a vectorised function that deletes all files in the folder. 
+Here's the cool part, we can pipe one function into another, so deleting everything in a folder is as simple and readable as this. dir_ls lists the content of the folder and file_delete is a vectorised function that deletes all files in the folder.  
 
 ```{r, eval=FALSE}
 dir_ls('dummy_folder') %>% file_delete()

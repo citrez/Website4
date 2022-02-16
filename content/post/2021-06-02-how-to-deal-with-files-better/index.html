@@ -4,7 +4,7 @@ author: Ezra Citron
 date: '2021-06-02'
 slug: []
 showtoc: false
-description: null
+description: "How to manage files in R using fs package"
 featured_image: finder.png
 draft: false
 tags: ['file system']
@@ -26,7 +26,7 @@ editor_options:
 <br><br>
 <img src = "finder.png" alt = "finder" width  = 400px>
 <br><br>
-That is great, and works very well for <em>90%</em> of cases. But, what happens when you have 3,000 files and you need to rename all of then, do you really want to be clicking through each of them and changing them individually? This is when a less graphical-user-interface reliant work-flow can really come in handy. I’ll be setting up a dummy problem and showing you how to solve it with the neat <code>fs</code> package in R. For me, file manipulation is one of those tool that you may not use everyday, but once in a while you’ll look like a magician and be very happy you know about it.</p>
+That is great. It works very well for <em>99%</em> of cases. But, what happens when you have 3,000 files and you need to rename all of then, do you really want to click through each of them making changes individually? This is when a less graphical-user-interface reliant work-flow can really shine. I’ll be setting up a dummy problem and showing you how to solve it with the neat <code>fs</code> package in R. For me, file manipulation is a tool I won’t use everyday, but once in a while it’ll make me feel like a magician and i’ll be very happy I took the time to learn about it.</p>
 </div>
 <div id="using-the-fs-package" class="section level2">
 <h2>Using the fs Package</h2>
@@ -39,7 +39,7 @@ dir_create(&#39;dummy_folder&#39;)</code></pre>
 </div>
 <div id="add-some-files" class="section level3">
 <h3>Add some files</h3>
-<p>he beauty of the fs package is that the functions are vecotrised. Meaning, you pass in a vector and it applies the function on all the elements of the vector successively. This saves us the messy step of looping or passing to a map function. The path() function from fs, helps us stick file paths together.</p>
+<p>The beauty of the fs package is that the functions are vecotrised. Meaning, you pass in a vector and it applies the function on all the elements of the vector successively. This saves us the messy step of looping or passing to a map function. The path() function from fs, helps us stick file paths together.</p>
 <pre class="r"><code>file_create(path = path(&#39;dummy_folder&#39;,paste0(&#39;test_&#39;,1:12) ), ext = &#39;txt&#39; )</code></pre>
 </div>
 <div id="look-at-the-contents-for-folders" class="section level3">
@@ -51,39 +51,18 @@ dir_create(&#39;dummy_folder&#39;)</code></pre>
 ## dummy_folder/test_4.txt  dummy_folder/test_5.txt  dummy_folder/test_6.txt  
 ## dummy_folder/test_7.txt  dummy_folder/test_8.txt  dummy_folder/test_9.txt</code></pre>
 <p>Or if we want that in a tidy tibble…</p>
-<pre><code>## # A tibble: 12 x 18
-##    path        type   size permissions modification_time   user  group device_id
-##    &lt;fs::path&gt;  &lt;fct&gt; &lt;fs:&gt; &lt;fs::perms&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
-##  1 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  2 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  3 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  4 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  5 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  6 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  7 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  8 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-##  9 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-## 10 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-## 11 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
-## 12 dummy_fold… file      0 rw-r--r--   2021-08-12 15:26:03 ezra… staff  16777224
+<pre class="r"><code>dir_info(&#39;dummy_folder&#39;) %&gt;% head(3) </code></pre>
+<pre><code>## # A tibble: 3 x 18
+##   path         type   size permissions modification_time   user  group device_id
+##   &lt;fs::path&gt;   &lt;fct&gt; &lt;fs:&gt; &lt;fs::perms&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1 dummy_folde… file      0 rw-r--r--   2022-02-15 23:34:21 ezra… staff  16777220
+## 2 dummy_folde… file      0 rw-r--r--   2022-02-15 23:34:21 ezra… staff  16777220
+## 3 dummy_folde… file      0 rw-r--r--   2022-02-15 23:34:21 ezra… staff  16777220
 ## # … with 10 more variables: hard_links &lt;dbl&gt;, special_device_id &lt;dbl&gt;,
 ## #   inode &lt;dbl&gt;, block_size &lt;dbl&gt;, blocks &lt;dbl&gt;, flags &lt;int&gt;, generation &lt;dbl&gt;,
 ## #   access_time &lt;dttm&gt;, change_time &lt;dttm&gt;, birth_time &lt;dttm&gt;</code></pre>
 <p>or if we want a tree of the structure…</p>
 <pre class="r"><code>fs::dir_tree(path = &#39;dummy_folder&#39;,recurse = 2)</code></pre>
-<pre><code>## dummy_folder
-## ├── test_1.txt
-## ├── test_10.txt
-## ├── test_11.txt
-## ├── test_12.txt
-## ├── test_2.txt
-## ├── test_3.txt
-## ├── test_4.txt
-## ├── test_5.txt
-## ├── test_6.txt
-## ├── test_7.txt
-## ├── test_8.txt
-## └── test_9.txt</code></pre>
 </div>
 <div id="combine-using-the-pipe" class="section level3">
 <h3>Combine using the pipe</h3>

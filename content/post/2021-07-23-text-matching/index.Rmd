@@ -16,6 +16,8 @@ knitr::opts_chunk$set(echo = TRUE,error=F,warning=F,message=F)
 #reticulate::virtualenv_create('website4_env')
 #reticulate::virtualenv_list()
 #reticulate::virtualenv_install('website4_env','fuzzywuzzy')
+#reticulate::virtualenv_install('website4_env','python-Levenshtein')
+
 reticulate::use_virtualenv(virtualenv = 'website4_env',required = TRUE)
 #reticulate::virtualenv_remove('website4_env')
 
@@ -24,7 +26,7 @@ reticulate::use_virtualenv(virtualenv = 'website4_env',required = TRUE)
 As more and more people want to use a 'data driven approach' in their work, one common problem often arises. 
 I have some data on peoples favorite films, and I have some other data on film revenue. But the names don't match up exactly, and I don't want to manually go through the data to make the match. Without having to go through each case manually, we need rules so that 'James Bond Film' matches to the official title, "James Bond No Time to Die " and "Meliganant" (spelling error) matches to "Malignant".
 
-There is no 1 solution that will fix this perfectly in every situation, but in this article I'd like to introduce a few techniques that may be able to get you at least some of the way.
+There is *no* one solution that will fix this perfectly in every situation, but in this article I'd like to introduce a few techniques that may be able to get you at least some of the way.
 
 ## Approaches
 There are 6 approaches when trying to get text to match. 
@@ -38,7 +40,7 @@ This can be implemented in python using the [fuzzywuzzy](https://pypi.org/projec
 
 ```{python}
 from fuzzywuzzy import fuzz
-[fuzz.ratio('James Bond',word2) for word2 in ('James Bonds', 'James B')  ]
+[fuzz.ratio('James Bond',word) for word in ('James Bonds', 'James B')  ]
 ```
 
 You can also use partial ratios to match to a subset of the string, and 'token sort ratios', to ignore ordering of the words. For choosing the the lowest Levenstine distance among a selection of words use the process module.  

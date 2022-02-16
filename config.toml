@@ -38,7 +38,7 @@ home = ["HTML", "RSS", "Algolia"]
   # Sidebar settings
   sidebar_about_description = "Trying to be a better coder"
 
-  sidebar_avatar = "img/headshot_1.png"      # use absolute URL, seeing it's used in both `/` and `/about/`
+  sidebar_avatar = "img/headshot.png"      # use absolute URL, seeing it's used in both `/` and `/about/`
   about_me = true
   
   featured_tags = true 

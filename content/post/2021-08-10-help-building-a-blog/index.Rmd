@@ -16,7 +16,7 @@ Let me be clear from the outset. **I am no webdeveloper**. I have however, thoro
 
 ### Use Blogdown to get up and running
 
-Blogdown is a package in R which helps you build a static website, using [Rmarkdown](https://rmarkdown.rstudio.com/articles_intro.html) documents as the website pages. Rmarkdown  One big advantage of using Rmarkdown (.Rmd) over markdown (.md) files, is that it allows you to seamlessly include code in your blogs, very useful if you're writing for a technical audience. 
+Blogdown is a package in R which helps you build a static website, using [Rmarkdown](https://rmarkdown.rstudio.com/articles_intro.html) documents as the website pages. One big advantage of using Rmarkdown (.Rmd) over markdown (.md) files, is that it allows you to seamlessly include code in your blogs, very useful if you're writing for a technical audience. 
 
 Alison hill, made a blog post using blogdown about how to make a blog post using blogdown - meta. You can find it [here](https://alison.rbind.io/blog/2017-06-up-running-with-blogdown/).
 

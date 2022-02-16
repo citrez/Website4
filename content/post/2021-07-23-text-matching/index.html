@@ -13,7 +13,7 @@ showtoc: false
 
 <p>As more and more people want to use a ‘data driven approach’ in their work, one common problem often arises.
 I have some data on peoples favorite films, and I have some other data on film revenue. But the names don’t match up exactly, and I don’t want to manually go through the data to make the match. Without having to go through each case manually, we need rules so that ‘James Bond Film’ matches to the official title, “James Bond No Time to Die” and “Meliganant” (spelling error) matches to “Malignant”.</p>
-<p>There is no 1 solution that will fix this perfectly in every situation, but in this article I’d like to introduce a few techniques that may be able to get you at least some of the way.</p>
+<p>There is <em>no</em> one solution that will fix this perfectly in every situation, but in this article I’d like to introduce a few techniques that may be able to get you at least some of the way.</p>
 <div id="approaches" class="section level2">
 <h2>Approaches</h2>
 <p>There are 6 approaches when trying to get text to match.</p>
@@ -22,10 +22,8 @@ I have some data on peoples favorite films, and I have some other data on film r
 </ol>
 <p>This is simply a matter of thinking, how many characters do we need to change to go from one word to another. ‘cat’ to ‘rat’ is 1, “Meliganant” to “Malignant” is 2 (M<del>e</del>alig<del>a</del>nant). The most common technique to implement this is called ‘Levenstine Distance’ which just keeps score of how many insertions, updates and deleted characters have been made to get from one word to another, which gives you your overall Levenstine Distance. We can then use the ratio of Levenstine distance and length of the word(s) to get the Levenstine ratio of how similar 2 word(s) are.</p>
 <p>This can be implemented in python using the <a href="https://pypi.org/project/fuzzywuzzy/">fuzzywuzzy</a> (real name) package.</p>
-<pre class="python"><code>from fuzzywuzzy import fuzz</code></pre>
-<pre><code>## /Users/ezracitron/.virtualenvs/website4_env/lib/python3.6/site-packages/fuzzywuzzy/fuzz.py:11: UserWarning: Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning
-##   warnings.warn(&#39;Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning&#39;)</code></pre>
-<pre class="python"><code>[fuzz.ratio(&#39;James Bond&#39;,word2) for word2 in (&#39;James Bonds&#39;, &#39;James B&#39;)  ]</code></pre>
+<pre class="python"><code>from fuzzywuzzy import fuzz
+[fuzz.ratio(&#39;James Bond&#39;,word) for word in (&#39;James Bonds&#39;, &#39;James B&#39;)  ]</code></pre>
 <pre><code>## [95, 82]</code></pre>
 <p>You can also use partial ratios to match to a subset of the string, and ‘token sort ratios’, to ignore ordering of the words. For choosing the the lowest Levenstine distance among a selection of words use the process module.</p>
 <pre class="python"><code>from fuzzywuzzy import process

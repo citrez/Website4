@@ -3,42 +3,83 @@ title: Predictive Modeling with NLP
 author: Ezra Citron
 date: '2021-05-30'
 slug: []
+showtoc: false
 tags: ['topic modeling','NLP']
 description: ~
 image: "img/banner/eminem.jpeg"
-showtoc: true
+draft: true
 ---
 
 
 
 <p>For a while I thought it’d be fun to apply natural language processing (NLP) techniques on artists lyrics - and see what it comes up with, whether the analysis chimes with our experience of listening to the artist.</p>
-<p>Picking a rapper would be a good choice, purely because they give us more words than other artists.</p>
+<p>Picking a rapper would be a good choice, purely because they give us more words than most.</p>
 <p>I’m going to split this out into a 5 series of blog posts, each focusing on different aspects of NLP.
 - Predictive modeling with NLP
 - Network structure
 - Topic analysis with NLP</p>
-<pre><code>## # A tibble: 304 x 4
-##    lyrics                                               song        album  year 
-##    &lt;chr&gt;                                                &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;
-##  1 &quot;Aw, yeah (It&#39;s like this, like this) It&#39;s Eminem b… Infinite    Infin… 1996 
-##  2 &quot;Yeah, soul intent, checking in number one, baby th… WEGO Inter… Infin… 1996 
-##  3 &quot;Check it out Hey Kyu! It&#39;s a broke day but everyth… Its Ok      Infin… 1996 
-##  4 &quot;Now what you know about a sweet MC, from the 313 N… 313         Infin… 1996 
-##  5 &quot;Tonight, tonight, tonight, tonight, tonight I&#39;m ge… Tonight     Infin… 1996 
-##  6 &quot;Maxine! Hello Can I speak to Maxine? Yeah, this is… Maxine      Infin… 1996 
-##  7 &quot;Hey yo, what&#39;s up, man? Hey yo, you been here all … Open Mic    Infin… 1996 
-##  8 &quot;Denaun, what up, man? What up, dawg? You all right… Never 2 Far Infin… 1996 
-##  9 &quot;[Angela Workman:] Ain&#39;t no one special, special li… Searchin    Infin… 1996 
-## 10 &quot;Attention all units, attention all units We have a… Backstabber Infin… 1996 
-## # … with 294 more rows</code></pre>
-<p>make a feature of earlier/ later albums</p>
-<pre class="r"><code>lyrics &lt;- lyrics %&gt;%
-  mutate(age = if_else(year &lt; 2015,&#39;Older&#39;,&#39;Newer&#39;) )</code></pre>
+<pre class="r"><code>lyrics %&gt;% head(n = 5) %&gt;% knitr::kable()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="99%" />
+<col width="0%" />
+<col width="0%" />
+<col width="0%" />
+<col width="0%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">lyrics</th>
+<th align="left">song</th>
+<th align="left">album</th>
+<th align="left">year</th>
+<th align="left">age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Aw, yeah (It’s like this, like this) It’s Eminem baby, back up in that motherfucking ass (‘Til forever, ’til forever) One time for your motherfucking mind (For MCs, MCs) We represent the 313 You know what I’m saying? Yo they don’t know shit about this For the ’96 Ayo, my pen and paper cause a chain reaction To get your brain relaxing, the zany-acting maniac in action A brainiac in fact son, you mainly lack attraction You look insanely wack when just a fraction of my tracks runs My rhyming skills got you climbing hills I travel through your mind and chill your spine like siren drills I’m sliming grills of roaches, with spray that disinfects And twisting necks of rappers ’til their spinal column disconnects Put this in decks and check the monologue, turn your system up Twist ’em up, and indulge in the marijuana smoke This is the season for noise pollution contamination Examination of more car tunes than animation My lamination of nar-er-ration Hits a snare and bass in a track for duck rapper interrogation When I declare invasion, there ain’t no time to be staring gazing I turn the stage into a barren wasteland I’m infinite You heard of hell well I was sent from it I went to it serving a sentence for murderin’ instruments Now I’m trying to repent from it But when I hear the beat I’m tempted to make another attempt at it I’m infinite Bust it, I let the beat commence so I can beat the sense in your elite defense I got some meat to mince, a crew to stomp and then two feet to rinse I greet the gents and ladies, I spoil loyal fans I foil plans and leave fluids leaking like oil pans My coiled hands around this microphone are lethal One thought in my cerebral is deeper than a Jeep full of people MCs are feeble, I came to ‘cause some pandemonium Battle a band of phony MCs and stand the lonely one Imitator, intimidator, stimulator, simulator of data, eliminator There’s never been a greater since the burial of Jesus Fuck around and catch all the venereal diseases My thesis will smash a stereo to pieces My a cappella releases classic masterpieces through telekinesis It eases you mentally, gently, sentimentally, instrumentally With entity, dementedly meant to be infinite You heard of hell well I was sent from it I went to it serving a sentence for murderin’ instruments Now I’m trying to repent from it But when I hear the beat I’m tempted to make another attempt at it I’m infinite Man I got evidence I’m never dense and I been clever ever since My residence was hesitant to do some shit that represents the M-O So I’m assuming all responsibility ‘Cause there’s a monster real in me that always wants to kill MCs Mic nestler, slamming like a wrestler Here to make a mess of a lyric-smuggling embezzler No one is specialer, my skill is intergalactical I get cynical act a fool then I send a crew back to school I never packed a tool or acted cool, it wasn’t practical I’d rather let a tactical, tactful track tickle your fancy In fact I can’t see, or can’t imagine A man who ain’t a lover of beats or a fan of scratching So this is for my family, the kid who had a cameo on my last jam Plus the man who never had a plan B Be all you can be, ’cause once you make an instant hit I’m tensed a bit and tempted when I see the sins my friends commit I’m infinite You heard of hell well I was sent from it I went to it serving a sentence for murderin’ instruments Now I’m trying to repent from it But when I hear the beat I’m tempted to make another attempt at it I’m infinite You heard of hell well I was sent from it I went to it serving a sentence for murderin’ instruments Now I’m trying to repent from it But when I hear the beat I’m tempted to make another attempt at it I’m infinite ’95, ’96 (’96) And on and on and on (and on and on)</td>
+<td align="left">Infinite</td>
+<td align="left">Infinite</td>
+<td align="left">1996</td>
+<td align="left">Older</td>
+</tr>
+<tr class="even">
+<td align="left">Yeah, soul intent, checking in number one, baby this week You know what I’m sayin’? This is MC Proof and DJ Head! Checkin’ in on W.E.G.O. You know what I’m sayin’? Ay, yo, we got the number-one requested song (alright) of the day coming up next It’s a local 313 talent He goes by the name of Eminem And it’s called “It’s OK”</td>
+<td align="left">WEGO Interlude</td>
+<td align="left">Infinite</td>
+<td align="left">1996</td>
+<td align="left">Older</td>
+</tr>
+<tr class="odd">
+<td align="left">Check it out Hey Kyu! It’s a broke day but everything is OK (It’s OK) I’m up all night, but everything is alright (It’s alright) It’s a rough week, and I don’t get enough sleep (I can’t sleep) It’s a long year pretending I belong here (Belong here) It’s a broke day but everything is OK (It’s OK) I’m up all night, but everything is alright (It’s alright) It’s a rough week, and I don’t get enough sleep (I can’t sleep) It’s a long year pretending I belong here (Belong here) One day I plan to be a family man happily married I wanna grow to be so old that I have to be carried ’Til I’m glad to be buried And leave this crazy world And have at least a half a million for my baby girl It may be early to be planning this stuff ’Cause I’m still struggling hard to be the man, and it’s tough ’Cause man it’s been rough, but still I manage enough I’ve been taken advantage of, damaged and scuffed My hands have been cuffed But I don’t panic and huff, frantic and puff Or plan to give up, the minute shit hits the fan it erupts I’m anteing up double or nothing, I’ve been troubled enough And I’m sick of struggling and suffering, see My destiny’s to rest at ease, ’til I’m impressed and pleased With my progress, I won’t settle for less than cheese I’m on a quest to seize all, my own label to call Way before my baby is able to crawl I’m too stable to fall, the pressure motivates To know I hold the weight of boulders on my shoulder blades I seen the golden gates to heaven on Earth Where they don’t pull a weapon on you when you’re stepping on turf, Kyu It’s a broke day but everything is OK (It’s OK) I’m up all night, but everything is alright (It’s alright) It’s a rough week, and I don’t get enough sleep (I can’t sleep) It’s a long year pretending I belong here (Belong here) It’s a broke day but everything is OK (It’s OK) I’m up all night, but everything is alright (It’s alright) It’s a rough week, and I don’t get enough sleep (I can’t sleep) It’s a long year pretending I belong here (Belong here) I’m going for broke, gambling and playing for keeps Every day in the streets, scrambling and paying for cheap Praying for sleep Dreaming with a watering mouth Wishing for a better life for my daughter and spouse In this slaughtering house, caught up in bouts With the root of all evil I’ve seen it turn beautiful people crude and deceitful And make them do shit illegal For these Grants and Jacksons These transactions explain a man’s actions But in the midst of this insanity, I found my Christianity Through God and there’s a wish he granted me He showed me how to cope with the stress And hope for the best, instead of mope and depressed Always groping a mess, of flying over the nest To selling dope with the rest I quit smoking cess to open my chest Life is stressful inside this cesspool Trying to wrestle, I almost bust a blood vessel My little brother’s trying to learn his mathematics He’s asthmatic, running home from school away from crack addicts Kids attract static, children with automatics Taking target practice on teens for Starter Jackets I’m using smarter tactics to overcome this slum I won’t become as dumb as some and succumb to scum It’s cumbersome, I’m trying to do well on this Earth But it’s been Hell on this Earth since I fell on this Earth It’s a broke day but everything is OK (It’s OK) I’m up all night, but everything is alright (It’s alright) It’s a rough week, and I don’t get enough sleep (I can’t sleep) It’s a long year pretending I belong here (Belong here) It’s a broke day but everything is OK (It’s OK) I’m up all night, but everything is alright (It’s alright) It’s a rough week, and I don’t get enough sleep (I can’t sleep) It’s a long year pretending I belong here (Belong here) Uh, it’s OK, yeah it’s alright, even though I can’t sleep Uh yeah, it’s OK, it’s alright, I can’t sleep</td>
+<td align="left">Its Ok</td>
+<td align="left">Infinite</td>
+<td align="left">1996</td>
+<td align="left">Older</td>
+</tr>
+<tr class="even">
+<td align="left">Now what you know about a sweet MC, from the 313 None of these skills you ’bout to see come free So you wanna be a sweet MC, you gotta become me If you ever wanna be one see Man what you know about a sweet MC in the 313 None of these skills you ’bout to see come free So you wanna be a sweet MC, you better become me If you ever wanna be one see Yo some people say I’m whack, now if that’s right I’m the freshest whack MC that you ever heard, in your lifetime My slick a capella sounds clever with the beats Boy I’m the deepest thing since potholes to ever hit the streets Forget a gold digger’s succubus, my soul’s thick with ruggedness With the mic I’m like a dyke, can’t no nigga fuck with this I got more different strokes than Philip Drummound On open mic I bone your woman just to keep my lyrics coming (bitch) We elevated to new heights premeditated Let it be that I stated they hate it now that they see that I made it The escalated can be put to the test of greatness Snatch the heart from MCs and I ate it So I take it that’s the reason I’m hated To represent my temperament If rap was a dick all you so called hard MCs would not be impotent But pimping it, and acting like you could rock a show (so) Harder than LL’s Rock the Bells, and you’s a ho (now) Everything that you collaborate I lacerate My rhymes they keep coming like nymphomaniacs that masturbate At a faster rate, yeah I got something for your ass to hate I blast your hate, and have you all running past the gates And as for face clutching and touching the flows I got them open like marijuana smoke up in your nose Bucking these hoes, I got that shit down to a science Leaving them hot and bothered, turned on like an appliance Defiance? No we won’t have that You want your shit to blow up? Well I’ma stuff some dynamite in your ass crack And blast that shit to kingdom come Then bring them some of this real hip-hop I drop beats and you ain’t singing or gonna do a thing but run And you all knew from Meeko That you couldn’t hold your own with the strength of Lou Ferrigno So stop that bullshit flow Yo, you need to come with the real skills, and act like you know So what you know about a sweet MC in the 313 None of these skills you ’bout to see come free So you wanna be a sweet MC, you better become me If you ever wanna be one see Now what you know about a sweet MC from the 313 None of these skills you ’bout to see come free So you wanna be a sweet MC, you gotta become me If you ever wanna be one see So what you know about a sweet MC, in the 313 You don’t know shit so when you see one flee You can be Run-D, you’ll never be the MC I stopped the alphabet at S and got it down to a T I’m sure you’re bound to agree, a sweet MC crash the spot I’ll make the roof hot like I was Rock Master Scott Your ass forgot, so just in case you don’t remember me I’ll run your brain around the block to jog your fucking memory It’s either them or me man, kill or be killed Your will’ll be sealed your casket closed you still’ll be billed My facilities filled with fans, packed to capacity I’ll send a rapper back with the crack of his ass shitty If he’s acting soft and he cowers He better come cleaner than Jeru jacking off when he showers You flowers got no clout with a thing You could date a stick of dynamite and wouldn’t go out with a bang I shout with a slang, simple as ABCs Skip over the Ds and rock the microphone with ease Dethrone MCs and I’ma max alone Relax your dome like a solo from a saxophone So facts are known, biters get treated with shots I rock a beat harder than you could beat it with rocks I’m greeted with flocks of fellow follower singers You couldn’t make the fans throw up their hands if they swallowed their fingers But you can bring yours let’s see what you got But don’t front and never try to be what you’re not ’Cause you can be quick, jump the candlestick, burn your back And fuck Jill on a hill, but you still ain’t Jack So what you know about a sweet MC, from the 313 None of these skills you just seen come free So you wanna be a sweet MC, you gotta become me So you ain’t ever gonna be one see So what you know about a sweet MC in the 313 None of these skills that you just seen come free So you wanna be a sweet MC, you’ll never become me So you ain’t ever gonna be one see</td>
+<td align="left">313</td>
+<td align="left">Infinite</td>
+<td align="left">1996</td>
+<td align="left">Older</td>
+</tr>
+<tr class="odd">
+<td align="left">Tonight, tonight, tonight, tonight, tonight I’m getting mad love, I’m snuggling hugs Strugglin’ thugs, smuggling drugs, juggling jobs, guzzling jugs So here’s a toast to federal checks Hetero sex, unaffordable medical debts, huh We travel in packs and ravel in facts and gravel in cracks To find babbling Max, gaffling tracks I grapple an axe for them baffling acts Of mysterious stab-in-the-backs who dabble in wax Stealin’ my art when I sculpt it The culprit that stole shit’ll end up with his skull split Then I buried the hatchet, I carry the fat shit Butterfingers is here when it’s necessary to scratch it Baby, all I wanna do is swallow one or two Smoke a little bit and follow one of you Back home when the party ends So tonight I’m dropping naughty hints To the finest women in the audience Tonight, tonight, tonight, tonight, tonight Cause we came here to do this tonight We don’t wanna fight, we don’t want no one feeling uptight Cause we came here to do this tonight Till the morning light hope that everyone’s feeling alright Cause we came here to do this tonight We don’t wanna fight, we don’t want no one feeling uptight Cause we came here to do this tonight Till the morning light hope that everyone’s feeling alright Ayo, biters are like tarantulas, vandalous Living as scandalous as a television evangelist But I can handle this, I’m the rhyme biter crime fighter Caped crusader, taking care of undeserving lime lighters I think we live in era meant for me Experimentally I found a way to spread the terror mentally When I stumbled upon this resolution By using a special fusion of chemical solution for this fresh illusion You couldn’t see me with binoculars I’m armed like an octopus Step on stage and you get socked and pushed Talking that junk like you had Black Bart at your back Come to battle me and you get smacked hard as you act When I rep-a-resent it, and will have a referee in it Every minute so when I win it you never resent it I’m forever demented, come up with funk, I’ll never be scented You got the point when I cleverly sent it Tonight, tonight, tonight, tonight, tonight Cause we came here to do this tonight We don’t wanna fight, we don’t want no one feeling uptight Cause we came here to do this tonight Till the morning light hope that everyone’s feeling alright Cause we came here to do this tonight We don’t wanna fight, we don’t want no one feeling uptight Cause we came here to do this tonight Till the morning light hope that everyone’s feeling alright Eminem is heading skyward For those who thought that I would make you bored and treat you like a piece of plywood I’ve got miracle lyrical capability all in me With the agility to escape a killer bee colony So get your cameras and capture how miraculous I rap for all you Draculas and showed you all how whack you was I meant it as a diss, ’cause you don’t posses the pizazz of this I’m hazardous enough already as it is Without you adding fuel to the fire I’m cruel to the liar Who fails to recognize my reign and hail rule to the sire Clinical studies show that I’m cynical There’s no one who’s identical to my fresh and authentic flow I’m sure the party people can agree That I’m enchanting, rhythm romantically Freaking vocals so frantically So throw your hands up in the atmosphere And let them know the only party that was phat was here, just be like Tonight, tonight, tonight, tonight, tonight Cause we came here to do this tonight We don’t wanna fight, we don’t want no one feeling uptight Cause we came here to do this tonight Till the morning light hope that everyone’s feeling alright Cause we came here to do this tonight We don’t wanna fight, we don’t want no one feeling uptight Cause we came here to do this tonight Till the morning light hope that everyone’s feeling alright</td>
+<td align="left">Tonight</td>
+<td align="left">Infinite</td>
+<td align="left">1996</td>
+<td align="left">Older</td>
+</tr>
+</tbody>
+</table>
+<p>We have a feature of earlier/ later albums</p>
 <p>How are Eminems later works different</p>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="1920" /></p>
 <div id="topic-modeling" class="section level2">
 <h2>Topic Modeling</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 </div>
 <div id="tf-idf-between-albums" class="section level2">
 <h2>TF-IDF Between Albums</h2>

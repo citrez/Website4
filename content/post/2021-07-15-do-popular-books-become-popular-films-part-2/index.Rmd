@@ -6,6 +6,6 @@ slug: []
 showtoc: true
 tags: []
 description: ~
-image: harry_potter.jpeg
+image: img/banner/harry_potter.jpeg
 draft: true
 ---

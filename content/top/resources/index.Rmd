@@ -85,13 +85,6 @@ image: "img/banner/harry_potter.jpeg"
 
 - tidylog
 
-### Data Packages
-
-Here are some packages for retrieving data, afterall, what is data analysis without the data - just analysis, how lame. 
-- tidyquant
-- WDI
-- newsanchor
-- gtrendsR
 
 ### Pictures speak louder than definitions
 

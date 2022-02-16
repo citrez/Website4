@@ -12,7 +12,7 @@ tags: []
 # About me
  
 Hi, welcome to my blog!
-My name's Ezra, I'm 26 and I've been working for a couple of years as a data scientist in the city of London. I studied maths an university and then went on to do a masters in Economics. In my spare time I love hiking, running, rowing, tennis and generally being outdoors. 
+My name's Ezra, I'm 26 and I've been working for a couple of years as a data scientist in the city of London. I studied maths an university and then went on to do a masters in Economics. In my spare time I love hiking, running, rowing, tennis and generally being outdoors. For more on my experience and academic background, download my <a href="/img/cv.pdf" download>CV</a>.
 
 
 <img class="mySlides" src="img/hiking_1.jpg">
@@ -35,7 +35,6 @@ My name's Ezra, I'm 26 and I've been working for a couple of years as a data sci
 
   
 
-For more on my experience and academic background, download my <a href="/img/cv.pdf" download>CV</a>.
 
 # About my blog
 
