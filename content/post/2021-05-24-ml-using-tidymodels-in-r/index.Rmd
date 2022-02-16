@@ -1,11 +1,11 @@
 ---
-title: ML using Tidymodels in R
+title: Using the tidymodels package in R
 author: Ezra Citron
 date: '2021-05-24'
 slug: []
 showtoc: false
 tags: ['Machine Learning','tidymodels']
-description: "A blog explaining the use of the tidymodels packages"
+description: "Walk through of the tidymodels package using the iris dataset"
 image: "img/banner/tidymodels.jpeg"
 --- 
 ## Background
