@@ -62,7 +62,7 @@ image: "img/banner/harry_potter.jpeg"
 ### Books {#Books}
 
 
-- [An introduction to statisical learning with applications in R](https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf). A great book for understanding the key ideas in ML, offers a readable and no-nonsense introduction. Although I find the "applications in R" a bit outdated and 'base R'-y for my liking, the fundamental concepts have stood the test of time.
+
 
 - [Regex](https://www.regular-expressions.info/tutorial.html) is a data scientist's superpower. Once you know it, you'll wonder how you ever got by without it, and you'll be surprised how often it shows up. The good news is, it is more important to know the art of the possible, than remember exact regex syntax. 
 
@@ -78,12 +78,6 @@ image: "img/banner/harry_potter.jpeg"
 
 - [Library of Babel](https://libraryofbabel.info/) makes you think about randomness
 
-
-### Less-well-known Packages {#packages}
-
-- [SkimR](https://cran.r-project.org/web/packages/skimr/vignettes/skimr.html) - provide summary statistics about variables in data frames
-
-- tidylog
 
 
 ### Pictures speak louder than definitions
