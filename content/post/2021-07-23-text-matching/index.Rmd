@@ -6,7 +6,7 @@ slug: []
 tags: ['text matching']
 description: Exploring different text matching techniques in python.
 showtoc: false
-#image: img/banner/match.jpeg
+image: img/banner/levenstine.png
 ---
 ```{r setup, error=F,warning=F,message=F, echo = F}
 library(reticulate)
