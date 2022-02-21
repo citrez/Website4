@@ -4,7 +4,7 @@ author: Ezra Citron
 date: '2021-06-02'
 slug: []
 showtoc: false
-description: "How to manage files in R using fs package"
+subtitle: "How to manage files in R using fs package"
 featured_image: finder.png
 draft: false
 tags: ['file system']

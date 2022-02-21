@@ -4,7 +4,7 @@ author: Ezra Citron
 date: '2021-05-30'
 tags: ['webscraping']
 image: img/banner/harry_potter.jpeg
-description: Looking to uncover a relationship between film and book sales
+subtitle: Looking to uncover a relationship between film and book sales
 showtoc: false
 ---
 

@@ -4,7 +4,7 @@ author: Ezra Citron
 date: '2021-07-23'
 slug: []
 tags: ['text matching']
-description: Exploring different text matching techniques in python.
+subtitle: Exploring different text matching techniques in python.
 showtoc: false
 # image: img/banner/levenstine.png
 ---
