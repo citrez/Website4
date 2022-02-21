@@ -5,7 +5,6 @@ date: '2021-07-23'
 slug: []
 tags: ['text matching']
 subtitle: Exploring different text matching techniques in python.
-description: " "
 showtoc: false
 # image: img/banner/levenstine.png
 ---

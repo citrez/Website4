@@ -10,7 +10,7 @@ draft: false
 showtoc: false
 ---
 
-## How to start a blog
+## How to start a blog 
 
 Let me be clear from the outset. **I am no webdeveloper**. I have however, thoroughly enjoyed the process of learning a little bit more about the techniques and technology that go into taking a website live, and I want to share some of the learnings in this post. I'll be linking to lots of resources that can explain all the detail.
 

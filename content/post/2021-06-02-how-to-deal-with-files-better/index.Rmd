@@ -11,7 +11,7 @@ tags: ['file system']
 editor_options:
   chunk_output_type: inline
 ---
-## Intro 
+## Intro
 
 Managing your files usually boils down to 3 things.  
 

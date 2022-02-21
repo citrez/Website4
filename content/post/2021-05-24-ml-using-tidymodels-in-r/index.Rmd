@@ -5,7 +5,7 @@ date: '2021-05-24'
 slug: []
 showtoc: false
 tags: ['Machine Learning','tidymodels']
-description: "Walk through of the tidymodels package using the iris dataset"
+subtitle: "Walk through of the tidymodels package using the iris dataset"
 image: "img/banner/tidymodels.jpeg"
 --- 
 ## Background
