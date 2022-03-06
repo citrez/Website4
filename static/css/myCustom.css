@@ -4,7 +4,6 @@
  
 
  site-heading {
-   color:red;
  }
 
 .post-title,
@@ -12,17 +11,23 @@
  .post-content-preview, 
  .post-content-preview {
 font-family: 'Josefin Sans', sans-serif;
-
 }
 
 .post-content-preview {
 
 }
 
+/* This is the meta data about the post such as date info */
 .post-meta {
+  color: red;
+  font-size: 6rem;
 
 }
 
+
 .post-title {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Francois One', sans-serif;
+  font-style: bold;
+  font-weight: 700;
+;
 }

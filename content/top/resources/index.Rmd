@@ -27,32 +27,23 @@ I used hugo and blogdown to create this site. [The blogdown book](https://bookdo
 - Mike dane  
 [Mike Dane's](https://www.youtube.com/channel/UCvmINlrza7JHB1zkIOuXEbw) you tube channel is **very** good. I used him to learn about hugo, which was used to build this site, but there is a lot more on there.
 
-- Alison Hill  
-[Alison Hill](https://alison.rbind.io/projects/) is a recent find and an absoloute teasure strove of information.
+- [Alison Hill](https://alison.rbind.io/projects/) is a recent find and an absoloute teasure strove of information.
 
-- Cedric Scherer  
-[Cedric Scherer](https://www.cedricscherer.com/), what a man, what a blog.
+- [Cedric Scherer](https://www.cedricscherer.com/), what a man, what a blog.
 
-- Julia Silge  
-Julia has an incredible Youtube channel, taking you through all things tidymodeling. Super useful resource, if, like me, you'd like a framework to rival scikit-learn that will keep you safely within the confines of Rstudio. She also has a [blog](https://juliasilge.com/)
+- [Julia Silge](https://juliasilge.com/) has an incredible youtube channel, taking you through all things tidymodeling. Super useful resource, if, like me, you'd like a framework to rival scikit-learn that will keep you safely within the confines of Rstudio (see [my blog](https://ezracitron.co.uk/post/2021-05-24-ml-using-tidymodels-in-r/) on tidymodels). She also has a website and blog.
 
-- Ryan  
-[Ryans tutorials](https://ryanstutorials.net/) are a cool resource for introductory lesson to some programming fundamentals.
+- [Ryans tutorials](https://ryanstutorials.net/) is a cool website for introductory lesson to some programming fundamentals.
 
-- Strong bench  
-[Story Bench](https://www.storybench.org/category/how-to/) has tons of interesting blogs.
+- [Story Bench](https://www.storybench.org/category/how-to/) has tons of interesting blogs and tutorials.
 
-- Stat quest  
-[StatQuest](https://www.youtube.com/channel/UCtYLUTtgS3k1Fg4y5tAhLbw) with Josh Stalmer provides simple explanations and refreshers of all things Stats/ML and comes with a healthy dose of ironic uekele playing, whats not to like?! DOIBLE BAMM.
+- [StatQuest](https://www.youtube.com/channel/UCtYLUTtgS3k1Fg4y5tAhLbw) with Josh Stalmer provides simple explanations and refreshers for all things Stats/ML. He also provides a healthy dose of ironic (I presume) ukelele playing, whats not to like?
 
-- fireship  
-[fireship](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA) for all my interest in webdev. Offers great youtube 100 second snippets.
+- [fireship](https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA) is for all my interest in webdev. This is a wonderfully channel that produces high quality videos on a wide variety of webdev/coding topics. The videos are so well scripted and animated, it makes it fun to watch videos on topics you know nothing about. This is the gold standard for techincal youtube channels.
 
-- Tech with tim  
-[Tech with Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg) has become a favorite, I enjoy his explanations and he has some good intermediate and Expert python tutorial playlists.  
+- [Tech with Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg) has quickly become a favorite. I enjoy his explanations as well as the fact that he has some good intermediate and advanced python tutorial playlists.  
 
-- sentex  
-[sentdex](https://www.youtube.com/user/sentdex) is an all round fun and inspiring channel that discusses everything from neural networks, financial python and raspberry pie. Would recommend going there for project inspiration. 
+- [sentdex](https://www.youtube.com/user/sentdex) is an all round fun and inspiring channel that discusses everything from neural networks, financial python and raspberry pie. Would recommend going there for project inspiration. The videos can sometimes feel a little rough.
 
 ### DataVis {#DataVis}
 
@@ -68,17 +59,13 @@ Julia has an incredible Youtube channel, taking you through all things tidymodel
 
 ### Fun websites that deserve more attention
 
-- git-school
-Have you ever wished you know more about git? (the answer should always be yes), [git-school](https://git-school.github.io/visualizing-git/) have created this neat little webpage that helps you visualize what **actually** goes on when you type git pull and hope for the best.
+- Have you ever wished you know more about git? (the answer should always be yes), [git-school](https://git-school.github.io/visualizing-git/) have created this neat little webpage that helps you visualize what **actually** goes on when you type git pull and hope for the best.
 
-- Markdown
-For learning markdown [this](https://commonmark.org/help/tutorial/) is great interactive tutorial.
+- This(https://commonmark.org/help/tutorial/) is a great, interactive tutorial for learning markdown.
 
-- CSS selector game
-[flukeout](https://flukeout.github.io/) does an incredible job at game-ifying CSS selection. If you're not careful, you won't even realise you're learning.
+- [Flukeout](https://flukeout.github.io/) does an incredible job at 'gameifying' CSS selection. If you're not careful, you won't even realise you're learning.
 
-- Library of babel
-[Library of Babel](https://libraryofbabel.info/) makes you think about randomness
+- [Library of Babel](https://libraryofbabel.info/) makes you think about randomness
 
 ### Pictures speak louder than definitions
 
