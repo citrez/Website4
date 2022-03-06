@@ -59,7 +59,7 @@ I used hugo and blogdown to create this site. [The blogdown book](https://bookdo
 
 ### Fun websites that deserve more attention
 
-- Have you ever wished you know more about git? (the answer should always be yes), [git-school](https://git-school.github.io/visualizing-git/) have created this neat little webpage that helps you visualize what **actually** goes on when you type git pull and hope for the best.
+- Have you ever wished you know more about git? (the answer should always be yes), [git-school](https://git-school.github.io/visualizing-git/) have created this neat little webpage that helps you visualize what **actually** goes on when you type git pull and hope for the best. 
 
 - This(https://commonmark.org/help/tutorial/) is a great, interactive tutorial for learning markdown.
 

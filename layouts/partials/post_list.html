@@ -18,7 +18,7 @@
        {{ end }}
         </div> -->
     </a>
-    <p class="post-meta" style="color:#362706; font-family: 'Josefin Sans', sans-serif; font-style: normal; font-size: 0.8em;">
+    <p class="post-meta" style="">
    {{ .Date.Format "January 2006" }}
     <!-- Don't show "Last Modified on" if update happened on the same day. -->
    {{ if (and (not .Lastmod.IsZero) (not (eq (dateFormat "2006-01-02" .Lastmod) (dateFormat "2006-01-02" .Date)))) }}
