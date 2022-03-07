@@ -538,7 +538,6 @@ pre code {
 .post-preview>a:focus {
     text-decoration: none;
     color: inherit;
-
 }
 
 .post-preview>a>.post-title {
@@ -557,15 +556,13 @@ pre code {
 }
 
 .post-preview>.post-meta {
-    color:#3E7C17;
+    color: #3E7C17;
     font-family: 'Francois One', sans-serif;
     font-style: normal;
     font-size: 0.8em;
     text-decoration: none;
-
     margin-top: 0
 }
-
 
 .post-preview>.post-meta>a:hover,
 .post-preview>.post-meta>a:focus {
